@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault - Advanced Password Analyzer</title>
+    <meta name="description" content="Secure, client-side password entropy and strength analysis tool.">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d1117">
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Pass suggest</span>
+            </div>
+            <div class="nav-links">
+                <a href="#analyzer">Analyzer</a>
+                <a href="#how-it-works">How it Works</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="badge">Password Analyzer</div>
+            <h1>Secure your digital life with <span class="highlight">Pass suggest</span></h1>
+            <p>A client-side, zero-knowledge password strength analyzer. Instantly test password entropy, detect common
+                patterns, and generate mathematically secure alternatives without ever sending keystrokes to a server.
+            </p>
+            <div class="hero-actions">
+                <a href="#analyzer" class="primary-btn">Test a Password</a>
+                <a href="#how-it-works" class="secondary-btn">Learn the Math</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analyzer Tool Section -->
+    <section id="analyzer" class="analyzer-section">
+        <div class="container">
+            <div class="glass-panel main-panel">
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="Enter a password to analyze..."
+                        autocomplete="off">
+                    <button type="button" id="toggle-visibility" class="toggle-btn" aria-label="Toggle visibility">
+                        <svg id="icon-show" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg id="icon-hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="hidden">
+                            <path
+                                d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                            </path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="meter-container">
+                    <div class="meter-header">
+                        <span id="strength-text" class="strength-label">Awaiting input...</span>
+                        <span id="score-text" class="score-label">0%</span>
+                    </div>
+                    <div class="meter-track">
+                        <div id="meter-fill" class="meter-fill"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Entropy</div>
+                        <div class="stat-value" id="entropy-value">0 bits</div>
+                        <div class="stat-desc">Information density</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Est. Crack Time</div>
+                        <div class="stat-value" id="crack-time">Instant</div>
+                        <div class="stat-desc">@ 100B hashes/sec</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Character Pool</div>
+                        <div class="stat-value" id="pool-size">0</div>
+                        <div class="stat-desc">Possible characters</div>
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <h3>Vulnerability Analysis</h3>
+                    <ul id="feedback-list" class="feedback-list">
+                        <li class="feedback-item neutral">Enter a password to see analysis.</li>
+                    </ul>
+                </div>
+
+                <div class="suggestions-section">
+                    <div class="suggestions-header">
+                        <h3>Password Suggestions</h3>
+                        <button type="button" id="generate-btn" class="generate-btn">Generate</button>
+                    </div>
+                    <div id="suggestions-list" class="suggestions-list">
+                        <!-- Suggestions will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Section -->
+    <section id="how-it-works" class="educational-section">
+        <div class="edu-container">
+            <h2>The Science of Security</h2>
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <div class="edu-icon">∑</div>
+                    <h3>Information Entropy</h3>
+                    <p>Calculated as <code>E = L &times; log2(R)</code>. This measures the mathematical unpredictability
+                        of your password based on its length (L) and the pool of possible characters (R).</p>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-icon">⚡</div>
+                    <h3>Brute-Force Speeds</h3>
+                    <p>Modern GPU clusters can calculate over 100 Billion hashes per second. This tool assumes a
+                        worst-case scenario attacker to estimate how long a pure mathematical brute force would take.
+                    </p>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-icon">📖</div>
+                    <h3>Pattern Predictability</h3>
+                    <p>True entropy assumes randomness. Dictionary words or keyboard walks (like "qwerty" or "123456")
+                        drastically reduce the complexity attackers need to guess your password.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Designed and built locally for educational purposes by G2.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('ServiceWorker registered');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
